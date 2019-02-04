@@ -6,6 +6,34 @@
         .service('MenuSearchService', MenuSearchService)
         .directive('foundItems', FoundItems);
 
+    FoundItems.$inject = ['NarrowItDownController', 'MenuSearchService'];
+    function FoundItems(NarrowItDownController, MenuSearchService) {
+        var ddo = {
+            scope: {
+                foundItems: '<',
+                removeFoundItemzs: '&onRemove'
+            },
+            controller: FoundItemsController,
+            bindToController: true,
+            controllerAs: 'dirCtrl',
+            templateUrl: 'founditems.html'
+        };
+
+        return ddo;
+    }
+
+    ControllerFunction.$inject = ['MenuSearchService'];
+    function ControllerFunction(MenuSearchService) {
+        var dirCtrl = this;
+
+        dirCtrl.removeFoundItemz = function () {
+            dirCtrl.foundItems = MenuSearchService.removeFoundItems($index);
+        };
+    }
+
+
+
+
     NarrowItDownController.$inject = ['MenuSearchService'];
     function NarrowItDownController(MenuSearchService) {
         var nidCtrl = this;
@@ -23,7 +51,9 @@
         var foundItems = [];
 
         service.getMatchedMenuItems = function (searchTerm) {
-            return $http('https://davids-restaurant.herokuapp.com/menu_items.json').then(function (result) {
+            return $http({
+                url: "https://davids-restaurant.herokuapp.com/menu_items.json"
+            }).then(function (result) {
                 // process result and only keep items that match
                 foundItems.push(result);
 
@@ -32,11 +62,11 @@
             });
         };
 
-        service.removefoundItems = function (itemIdex) {
-            foundItems.splice(itemIdex, 1);
+        service.removeFoundItems = function (itemIndex) {
+            foundItems.splice(itemIndex, 1);
         };
 
-        service.getfoundItems = function () {
+        service.getFoundItems = function () {
             return foundItems;
         };
     }
