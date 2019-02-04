@@ -11,10 +11,10 @@
         <h1>Narrow Down Your Chinese Menu Choice</h1>
 
         <div class="form-group">
-            <input type="text" placeholder="search term" class="form-control">
+            <input ng-model="nidCtrl.searchTerm" type="text" placeholder="search term" class="form-control">
         </div>
         <div class="form-group narrow-button">
-            <button class="btn btn-primary">Narrow It Down For Me!</button>
+            <button ng-click="nidCtrl.found()" class="btn btn-primary">Narrow It Down For Me!</button>
         </div>
 
         <!-- found-items should be implemented as a component -->
