@@ -4,10 +4,10 @@
     angular.module('NarrowItDownApp', [])
         .controller('NarrowItDownController ', NarrowItDownController)
         .service('MenuSearchService', MenuSearchService)
-        .directive('foundItems', FoundItems);
+        .directive('foundItems', FoundItems)
+        .constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");
 
-    FoundItems.$inject = ['NarrowItDownController', 'MenuSearchService'];
-    function FoundItems(NarrowItDownController, MenuSearchService) {
+    function FoundItems() {
         var ddo = {
             scope: {
                 foundItems: '<',
@@ -22,8 +22,8 @@
         return ddo;
     }
 
-    ControllerFunction.$inject = ['MenuSearchService'];
-    function ControllerFunction(MenuSearchService) {
+    FoundItemsController.$inject = ['MenuSearchService'];
+    function FoundItemsController(MenuSearchService) {
         var dirCtrl = this;
 
         dirCtrl.removeFoundItemz = function () {
@@ -38,24 +38,28 @@
     function NarrowItDownController(MenuSearchService) {
         var nidCtrl = this;
 
-        nidCtrl.found = "";
+        //nidCtrl.found = "";
 
         nidCtrl.found = function () {
             MenuSearchService.getMatchedMenuItems(nidCtrl.searchTerm);
         };
     }
 
-    function MenuSearchService() {
+    MenuSearchService.$inject = ['$http', 'ApiBasePath'];
+    function MenuSearchService($http, ApiBasePath) {
         var service = this;
 
         var foundItems = [];
 
         service.getMatchedMenuItems = function (searchTerm) {
             return $http({
-                url: "https://davids-restaurant.herokuapp.com/menu_items.json"
+                url: ApiBasePath + "/menu_items.json"
             }).then(function (result) {
-                // process result and only keep items that match
-                foundItems.push(result);
+                var allItems = result.data.menu_items;
+                for (i = 0; allItems.length < i; i++)
+                    if (allItems[i].description.toLowerCase().indexOf(searchTerm) !== '-1')
+                        // process result and only keep items that match
+                        foundItems.push(allItems[i]);
 
                 // return processed items
                 return foundItems;
@@ -68,6 +72,10 @@
 
         service.getFoundItems = function () {
             return foundItems;
+        };
+
+        service.clear = function () {
+            foundItems.splice(0, foundItems.length);
         };
     }
 
