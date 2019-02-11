@@ -7,6 +7,20 @@
         .directive('foundItems', FoundItems)
         .constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");
 
+    NarrowItDownController.$inject = ['MenuSearchService'];
+    function NarrowItDownController(MenuSearchService) {
+        var nidCtrl = this;
+
+        //nidCtrl.found = "";
+
+        nidCtrl.found = function () {
+            MenuSearchService.getMatchedMenuItems(nidCtrl.searchTerm);
+        };
+    }
+
+
+
+
     function FoundItems() {
         var ddo = {
             scope: {
@@ -34,16 +48,7 @@
 
 
 
-    NarrowItDownController.$inject = ['MenuSearchService'];
-    function NarrowItDownController(MenuSearchService) {
-        var nidCtrl = this;
-
-        //nidCtrl.found = "";
-
-        nidCtrl.found = function () {
-            MenuSearchService.getMatchedMenuItems(nidCtrl.searchTerm);
-        };
-    }
+    
 
     MenuSearchService.$inject = ['$http', 'ApiBasePath'];
     function MenuSearchService($http, ApiBasePath) {
