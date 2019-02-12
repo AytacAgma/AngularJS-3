@@ -14,7 +14,7 @@
         var ddo = {
             scope: {
                 items: '<',
-                removeFoundItemzs: '&onRemove'
+                removeFoundItemsOn: '&onRemove'
             },
             controller: FoundItemsController,
             bindToController: true,
@@ -29,9 +29,9 @@
     function FoundItemsController(MenuSearchService) {
         var dirCtrl = this;
 
-        dirCtrl.removeFoundItemz = function (index) {
-            dirCtrl.foundItems = MenuSearchService.removeFoundItems(index);
-        };
+        //dirCtrl.removeFoundItemz = function (index) {
+        //    dirCtrl.foundItems = MenuSearchService.removeFoundItems(index);
+        //};
     }
 
 
@@ -42,17 +42,21 @@
     function NarrowItDownController(MenuSearchService) {
         var nidCtrl = this;
 
-        nidCtrl.found = "";
+        //nidCtrl.found = "Nothing Found.";
 
         nidCtrl.search = function () {
-            MenuSearchService.getMatchedMenuItems(nidCtrl.searchTerm)
-                .then(function (result) {
-                    nidCtrl.found = result;
-                });
+            MenuSearchService.clear();
+            //nidCtrl.found = "Nothing Found.";
+            if (nidCtrl.searchTerm !== "") {
+                MenuSearchService.getMatchedMenuItems(nidCtrl.searchTerm)
+                    .then(function (result) {
+                        nidCtrl.found = result;
+                    });
+            }
         };
 
-        nidCtrl.remove = function (index) {
-            MenuSearchService.removeFoundItems(index);
+        nidCtrl.remove = function (itemIndex) {
+            MenuSearchService.removeFoundItems(itemIndex);
         };
     }
 

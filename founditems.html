@@ -1,6 +1,8 @@
 ﻿<ul>
     <li ng-repeat="item in dirCtrl.items">
         {{item.name}}, {{item.short_name}}, {{item.description}}
-        <button ng-click="dirCtrl.removeFoundItemz({itemIndex: $index});">Don't want this one!</button>
+        <button ng-click="dirCtrl.removeFoundItemsOn({index: $index});">Don't want this one!</button>
     </li>
 </ul>
+<div ng-if="dirCtrl.items.length < 1">Nothing Found.</div>
+<!--<div ng-if="dirCtrl.items.length < 1 || !dirCtrl.items.length">Nothing Found.</div>-->
