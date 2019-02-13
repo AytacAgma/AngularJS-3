@@ -47,12 +47,14 @@
         nidCtrl.search = function () {
             MenuSearchService.clear();
             //nidCtrl.found = "Nothing Found.";
-            if (nidCtrl.searchTerm !== "") {
+            if (nidCtrl.searchTerm !== undefined) {
                 MenuSearchService.getMatchedMenuItems(nidCtrl.searchTerm)
                     .then(function (result) {
                         nidCtrl.found = result;
                     });
             }
+            else
+                nidCtrl.found = MenuSearchService.getFoundItems();
         };
 
         nidCtrl.remove = function (itemIndex) {
@@ -76,7 +78,7 @@
             }).then(function (result) {
                 var allItems = result.data.menu_items;
                 for (var i = 0; i < allItems.length; i++)
-                    if (allItems[i].description.toLowerCase().indexOf(searchTerm) !== -1)
+                    if (allItems[i].description.toLowerCase().indexOf(searchTerm.toLowerCase()) > 0)
                         // process result and only keep items that match
                         foundItems.push(allItems[i]);
 
