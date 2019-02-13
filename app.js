@@ -47,7 +47,7 @@
         nidCtrl.search = function () {
             MenuSearchService.clear();
             //nidCtrl.found = "Nothing Found.";
-            if (nidCtrl.searchTerm !== undefined) {
+            if (nidCtrl.searchTerm !== undefined && nidCtrl.searchTerm !== "") {  //textboxa (searchTerm) birşey girildi VE girilen değer space (spaceler)(boşluk) değil ise
                 MenuSearchService.getMatchedMenuItems(nidCtrl.searchTerm)
                     .then(function (result) {
                         nidCtrl.found = result;
