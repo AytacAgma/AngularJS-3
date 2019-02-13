@@ -76,7 +76,7 @@
             }).then(function (result) {
                 var allItems = result.data.menu_items;
                 for (var i = 0; i < allItems.length; i++)
-                    if (allItems[i].description.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)
+                    if (allItems[i].description.toLowerCase().indexOf(searchTerm) !== -1)
                         // process result and only keep items that match
                         foundItems.push(allItems[i]);
 
